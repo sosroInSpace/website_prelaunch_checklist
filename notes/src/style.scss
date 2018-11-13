@@ -1,18 +1,86 @@
 /* declare variables */
 $brown: #fff2bf;
 $black: #222;
-
+$white: #fdfdfd;
 
 body {
 
-	
-
 	background:$brown;
+
+
+	h2 {
+		margin-bottom:0;
+	}
+
+	p {
+		font-size:14px;
+	}
+
+	ul {
+	    margin-left: 0;
+	    padding: 16px 14px;
+	    list-style: none;
+	    background: #efe5cd;
+	    border-radius: 4px;
+	}
+
+	li {
+	   
+	    margin: 20px 0px;
+    	border-bottom: 1px solid #333;
+    	padding: 15px 0px 15px 5px;
+
+	  
+	}
+
+	.result-container {
+		position:relative;
+
+		div {
+			display:block;
+			padding-bottom:14px;
+		}
+
+		.add-button {
+		    width: 100%;
+		    margin-top: 5px;
+		}
+	}
 
 	textarea {
 		background:$brown;
-		border:2px solid $black;
-		padding:20px;
+		border:none;
+		height: 300px;
+    	width: 100%;
+    	background:#f7ecca !important;
+    	text-indent:5px;
+    	padding-top:10px;
+
 
 	}
+	.column-container {
+	    width:338px;
+	    text-align: left;
+	    margin-left: 25px;
+	    margin-top: 25px;
+	}
+
+		/* This CSS will print because %button-style is called with @extend. */
+		%button-style {
+		  border: 1px solid #ccc;
+		  padding: 10px;
+		  color: #333;
+
+		 
+		}
+
+		button {
+			@extende %button-style;
+			background:$brown;
+			border-radius:0;
+			border:2px solid $black;
+			padding:5px 10px;
+			cursor:pointer;
+
+		}
 }

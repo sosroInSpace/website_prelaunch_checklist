@@ -103,27 +103,24 @@ class App extends Component {
 
   render() {
     return (
+
       <div className="App">
    
         <div
-          style={{
-            padding: 50,
-            textAlign: "left",
-            maxWidth: 500,
-            margin: "auto"
-          }}
+          className="column-container"
         >
-          Add an item to the list
+          <h2>Notes</h2>
           <br />
           <textArea
             type="textarea"
-            placeholder="Type item here"
+            placeholder="Add note."
             value={this.state.newItem}
             onChange={e => this.updateInput("newItem", e.target.value)}
           />
           <button
             onClick={() => this.addItem()}
             disabled={!this.state.newItem.length}
+            className="add-button"
           >
             &#43; Add
           </button>
@@ -132,10 +129,16 @@ class App extends Component {
             {this.state.list.map(item => {
               return (
                 <li key={item.id}>
-                  {item.value}
-                  <button onClick={() => this.deleteItem(item.id)}>
-                    Remove
-                  </button>
+                  <div className="result-container">
+                    <div className="result-column">
+                     <p>{item.value}</p>
+                    </div>
+                    <div className="remove-column">
+                    <button onClick={() => this.deleteItem(item.id)}>
+                     Remove
+                    </button>
+                  </div>
+                  </div>
                 </li>
               );
             })}
