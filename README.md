@@ -1,2 +1,2 @@
 # notes_app
-Web app general notes.
+Web app for general notes.
