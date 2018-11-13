@@ -22,6 +22,7 @@ body {
 	    list-style: none;
 	    background: #efe5cd;
 	    border-radius: 4px;
+	    margin-top:8px;
 	}
 
 	li {
@@ -33,6 +34,11 @@ body {
 	  
 	}
 
+	.add-button {
+		    width: 100%;
+		    margin-top: 5px;
+		}
+
 	.result-container {
 		position:relative;
 
@@ -41,16 +47,13 @@ body {
 			padding-bottom:14px;
 		}
 
-		.add-button {
-		    width: 100%;
-		    margin-top: 5px;
-		}
+		
 	}
 
 	textarea {
 		background:$brown;
 		border:none;
-		height: 300px;
+		height: 200px;
     	width: 100%;
     	background:#f7ecca !important;
     	text-indent:5px;
@@ -75,7 +78,7 @@ body {
 		}
 
 		button {
-			@extende %button-style;
+			@extend %button-style;
 			background:$brown;
 			border-radius:0;
 			border:2px solid $black;

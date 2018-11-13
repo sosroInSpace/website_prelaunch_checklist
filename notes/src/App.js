@@ -124,7 +124,7 @@ class App extends Component {
           >
             &#43; Add
           </button>
-          <br /> <br />
+          <br /> 
           <ul>
             {this.state.list.map(item => {
               return (
