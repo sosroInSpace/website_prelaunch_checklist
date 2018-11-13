@@ -1,0 +1,18 @@
+/* declare variables */
+$brown: #fff2bf;
+$black: #222;
+
+
+body {
+
+	
+
+	background:$brown;
+
+	textarea {
+		background:$brown;
+		border:2px solid $black;
+		padding:20px;
+
+	}
+}

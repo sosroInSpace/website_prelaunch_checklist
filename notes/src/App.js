@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import "./style.less";
+import "./style.scss";
 
 class App extends Component {
   constructor(props) {
@@ -115,8 +115,8 @@ class App extends Component {
         >
           Add an item to the list
           <br />
-          <input
-            type="text"
+          <textArea
+            type="textarea"
             placeholder="Type item here"
             value={this.state.newItem}
             onChange={e => this.updateInput("newItem", e.target.value)}
