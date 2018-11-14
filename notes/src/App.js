@@ -2,139 +2,201 @@ import React, { Component } from "react";
 import "./App.css";
 import "./style.scss";
 
+/*
+  Constants.
+*/
+
+const LOCAL_STORAGE_LIST_NAME = 'mathew-and-lukes-app.list';
+
 class App extends Component {
+
   constructor(props) {
     super(props);
+
     this.state = {
-      newItem: "",
-      list: []
+      newItemHeader: '',
+      list: [],
     };
-
-
-  }
-
-  hydrateStateWithLocalStorage() {
-    // for all items in state
-    for (let key in this.state) {
-      // if the key exists in localStorage
-      if (localStorage.hasOwnProperty(key)) {
-        // get the key's value from localStorage
-        let value = localStorage.getItem(key);
-
-        // parse the localStorage string and setState
-        try {
-          value = JSON.parse(value);
-          this.setState({ [key]: value });
-        } catch (e) {
-          // handle empty string
-          this.setState({ [key]: value });
-        }
-      }
-    }
   }
 
   componentDidMount() {
-      this.hydrateStateWithLocalStorage();
 
-       window.addEventListener(
-      "beforeunload",
-      this.saveStateToLocalStorage.bind(this)
-    );
-   }
+    this.hydrateStateWithLocalStorage();
 
-   componentWillUnmount() {
-      window.removeEventListener(
-        "beforeunload",
-        this.saveStateToLocalStorage.bind(this)
-      );
-
-      // saves if component has a chance to unmount
-      this.saveStateToLocalStorage();
+    window.addEventListener("beforeunload", this.saveStateToLocalStorage);
   }
 
-   saveStateToLocalStorage() {
-    // for every item in React state
-    for (let key in this.state) {
-      // save to localStorage
-      localStorage.setItem(key, JSON.stringify(this.state[key]));
+  componentWillUnmount() {
+
+    this.saveStateToLocalStorage();
+
+    window.removeEventListener("beforeunload", this.saveStateToLocalStorage);
+  }
+
+  hydrateStateWithLocalStorage = () => {
+
+    // Check if localstorage is available.
+
+    if (typeof localStorage === 'undefined') {
+      return;
     }
+
+    // Get localstorage item.
+
+    const listJSON = localStorage.getItem(LOCAL_STORAGE_LIST_NAME);
+
+    if (listJSON == null) {
+      return;
+    }
+
+    // Parse localstorage item and save it to state.
+
+    const list = JSON.parse(listJSON);
+
+    this.setState({ list });
+
   }
 
-  updateInput(key, value) {
-    // update react state
-    this.setState({ [key]: value });
+  saveStateToLocalStorage = () => {
 
+    console.log("SAVING");
+
+    const { list } = this.state;
+
+    // Check if localstorage is available.
+
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+
+    // Save JSON to localstorage.
+
+    const listJSON = JSON.stringify(list);
+
+    localStorage.setItem(LOCAL_STORAGE_LIST_NAME, listJSON);
+  }
+
+  saveStateToLocalStorageDebounced = () => {
+
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
+
+    this._timer = setTimeout(this.saveStateToLocalStorage, 300);
 
   }
 
-  addItem() {
-    // create a new item
+  addItem = () => {
+
+    const { newItemHeader, list } = this.state;
+
+    // Get trimmed label.
+
+    const label = newItemHeader.trim().replace(/\s\s+/g, ' ');
+
+    // Check if the header already exists.
+
+    if (list.some(obj => obj.label === label)) {
+      return;
+    }
+
+    // create a new item.
+
     const newItem = {
-      id: 1 + Math.random(),
-      value: this.state.newItem.slice()
+      label: label,
+      value: '',
     };
 
-    // copy current list of items
-    const list = [...this.state.list];
+    // Add the item to our list.
 
-    // add the new item to the list
-    list.push(newItem);
+    const nextList = list.concat([newItem]);
 
     // update state with new list, reset the new item input
-    this.setState({
-      list,
-      newItem: ""
-    });
 
-    // update localStorage
+    this.setState({ list: nextList, newItemHeader: '' });
+    this.saveStateToLocalStorage();
 
   }
 
-  deleteItem(id) {
-    // copy current list of items
-    const list = [...this.state.list];
-    // filter out the item being deleted
-    const updatedList = list.filter(item => item.id !== id);
+  deleteItem = (item) => () => {
 
-    this.setState({ list: updatedList });
+    // Filter out the item being deleted.
 
-    // update localStorage
+    const { list } = this.state;
+
+    const nextList = list.filter(obj => item !== obj);
+
+    this.setState({ list: nextList });
+    this.saveStateToLocalStorage();
+
+  }
+
+  handleChangeItemValue = (item) => (event) => {
+
+    const { list } = this.state;
+
+    // Copy the item.
+
+    const nextItem = { ...item, value: event.target.value };
+
+    // Save the item into a new list.
+
+    const nextList = list.map(obj => obj === item ? nextItem : obj);
+
+    // Save list.
+
+    this.setState({ list: nextList });
+    this.saveStateToLocalStorageDebounced();
+
+  }
+
+  handleChangeNewItemHeader = (event) => {
+
+    this.setState({ newItemHeader: event.target.value });
+
   }
 
   render() {
-    return (
 
+    const { list, newItemHeader } = this.state;
+
+    return (
       <div className="App">
    
         <div
           className="column-container"
-        >
+          >
           <h2>Notes</h2>
           <br />
-          <textArea
-            type="textarea"
-            placeholder="Add note."
-            value={this.state.newItem}
-            onChange={e => this.updateInput("newItem", e.target.value)}
-          />
+          <input
+            type="text"
+            placeholder="New item header."
+            value={newItemHeader}
+            onChange={this.handleChangeNewItemHeader}
+            />
           <button
-            onClick={() => this.addItem()}
-            disabled={!this.state.newItem.length}
+            onClick={this.addItem}
+            disabled={!newItemHeader.length}
             className="add-button"
-          >
+            >
             &#43; Add
           </button>
           <br /> 
           <ul>
-            {this.state.list.map(item => {
+            {list.map((item, i) => {
               return (
-                <li key={item.id}>
+                <li key={item.label}>
                   <div className="result-container">
                     <div className="result-column">
-                     <p>{item.value}</p>
+                      <div>
+                        <h5>{item.label}</h5>
+                     </div>
+                     <div>
+                     <textarea value={item.value} onChange={this.handleChangeItemValue(item)}/>
+                     </div>
                     </div>
                     <div className="remove-column">
-                    <button onClick={() => this.deleteItem(item.id)}>
+                    <button onClick={this.deleteItem(item)}>
                      Remove
                     </button>
                   </div>
