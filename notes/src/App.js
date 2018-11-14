@@ -27,6 +27,8 @@ class App extends Component {
     this.hydrateStateWithLocalStorage();
 
     window.addEventListener("beforeunload", this.saveStateToLocalStorage);
+
+
   }
 
   componentWillUnmount() {
@@ -59,6 +61,8 @@ class App extends Component {
     this.setState({ list });
 
   }
+
+
 
   saveStateToLocalStorage = () => {
 
@@ -106,9 +110,7 @@ class App extends Component {
 
     }
 
-
-
-    // create a new item.
+   // create a new item.
 
     const newItem = {
       label: label,
@@ -130,6 +132,8 @@ class App extends Component {
   }
 
   onKeyPress = (e) => {
+
+
         if(e.key === 'Enter'){
             
         const { newItemHeader, list } = this.state;
@@ -144,10 +148,8 @@ class App extends Component {
           alert('This label already exists..');
           return false;
         }
-
-
-
-        // create a new item.
+ 
+       // create a new item.
 
         const newItem = {
           label: label,
