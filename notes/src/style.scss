@@ -20,7 +20,7 @@ body {
 	    margin-left: 0;
 	    padding: 16px 14px;
 	    list-style: none;
-	    background: #efe5cd;
+	    background: #f3e5c5;
 	    border-radius: 4px;
 	    margin-top:8px;
 	}
@@ -28,10 +28,43 @@ body {
 	li {
 	   
 	    margin: 20px 0px;
-    	border-bottom: 1px solid #333;
-    	padding: 15px 0px 15px 5px;
 
 	  
+	}
+	.remove-column {
+	    margin-bottom: 5px;
+	}
+	.accordionLabel {
+	    background: #acd280;
+	    margin: 4px 0px;
+	    padding: 6px 6px;
+	    border-radius: 4px;
+	    transition:1s;
+
+	    &:hover {
+	    	background: #a6cc7c;
+    		transition: .3s;
+	    }
+	}
+
+	.head-label {
+	    padding-bottom: 0;
+	    height: auto;
+	    padding: 5px 10px 5px 10px;
+	    background: beige;
+	    border:2px solid $black;
+
+
+	    &:hover {
+	    	background:#859e66;
+	    	color:$white;
+	    	transition:.3s;
+	    	cursor:pointer;
+	    }
+
+	    h5 {
+	    	margin:0;
+	    }
 	}
 
 	.add-button {
@@ -41,23 +74,49 @@ body {
 
 	.result-container {
 		position:relative;
+		background:#a6cc79;
+		padding:5px;
 
 		div {
 			display:block;
-			padding-bottom:14px;
+		}
+
+		.remove-column {
+			margin-top: 5px;
 		}
 
 		
 	}
-
 	textarea {
+		    max-width: 100%;
+		    min-width:100%;
+		    border: none;
+		    height: 300px;
+		    background: #d1e2aa;
+		    box-sizing: border-box;
+		    padding: 15px;
+		    font-weight: bold;
+		    font-size: 14px;
+		    margin-top: 10px;
+		    border-radius: 4px;
+		    margin-bottom: 8px;
+
+		    &:focus {
+
+		    	outline:none;
+		    }
+
+	}
+	input {
 		background:$brown;
-		border:none;
-		height: 200px;
-    	width: 100%;
+		border:2px solid $black;
+    	width: calc(100% - 6px);
     	background:#f7ecca !important;
     	text-indent:5px;
     	padding-top:10px;
+    	padding-bottom:10px;
+    	font-weight:bold;
+    	font-size:13px;
 
 
 	}
@@ -73,6 +132,7 @@ body {
 		  border: 1px solid #ccc;
 		  padding: 10px;
 		  color: #333;
+		  transition:1s;
 
 		 
 		}
@@ -84,6 +144,11 @@ body {
 			border:2px solid $black;
 			padding:5px 10px;
 			cursor:pointer;
+
+			&:hover {
+				background:#fdf6e0;
+				transition:.2s;
+			}
 
 		}
 }

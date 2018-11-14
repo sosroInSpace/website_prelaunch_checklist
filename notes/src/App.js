@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Accordion, AccordionItem } from 'react-sanfona';
 import "./App.css";
 import "./style.scss";
 
@@ -16,6 +17,8 @@ class App extends Component {
     this.state = {
       newItemHeader: '',
       list: [],
+      onKeyPress: this.onKeyPress
+
     };
   }
 
@@ -86,7 +89,7 @@ class App extends Component {
 
   }
 
-  addItem = () => {
+  addItem = (event) => {
 
     const { newItemHeader, list } = this.state;
 
@@ -97,8 +100,13 @@ class App extends Component {
     // Check if the header already exists.
 
     if (list.some(obj => obj.label === label)) {
-      return;
+
+      alert('This label already exists..');
+      return false;
+
     }
+
+
 
     // create a new item.
 
@@ -116,7 +124,47 @@ class App extends Component {
     this.setState({ list: nextList, newItemHeader: '' });
     this.saveStateToLocalStorage();
 
+  
+
+
   }
+
+  onKeyPress = (e) => {
+        if(e.key === 'Enter'){
+            
+        const { newItemHeader, list } = this.state;
+
+        // Get trimmed label.
+
+        const label = newItemHeader.trim().replace(/\s\s+/g, ' ');
+
+        // Check if the header already exists.
+
+        if (list.some(obj => obj.label === label)) {
+          alert('This label already exists..');
+          return false;
+        }
+
+
+
+        // create a new item.
+
+        const newItem = {
+          label: label,
+          value: '',
+        };
+
+        // Add the item to our list.
+
+        const nextList = list.concat([newItem]);
+
+        // update state with new list, reset the new item input
+
+        this.setState({ list: nextList, newItemHeader: '' });
+        this.saveStateToLocalStorage();
+
+        }
+    }
 
   deleteItem = (item) => () => {
 
@@ -125,6 +173,8 @@ class App extends Component {
     const { list } = this.state;
 
     const nextList = list.filter(obj => item !== obj);
+
+   
 
     this.setState({ list: nextList });
     this.saveStateToLocalStorage();
@@ -162,6 +212,8 @@ class App extends Component {
 
     return (
       <div className="App">
+
+
    
         <div
           className="column-container"
@@ -170,9 +222,10 @@ class App extends Component {
           <br />
           <input
             type="text"
-            placeholder="New item header."
+            placeholder="New note label."
             value={newItemHeader}
             onChange={this.handleChangeNewItemHeader}
+            onKeyPress={this.onKeyPress}
             />
           <button
             onClick={this.addItem}
@@ -183,27 +236,27 @@ class App extends Component {
           </button>
           <br /> 
           <ul>
-            {list.map((item, i) => {
-              return (
-                <li key={item.label}>
-                  <div className="result-container">
-                    <div className="result-column">
-                      <div>
-                        <h5>{item.label}</h5>
-                     </div>
-                     <div>
-                     <textarea value={item.value} onChange={this.handleChangeItemValue(item)}/>
-                     </div>
-                    </div>
-                    <div className="remove-column">
-                    <button onClick={this.deleteItem(item)}>
-                     Remove
-                    </button>
-                  </div>
-                  </div>
+              <li>
+                 
+                    <Accordion>
+                       {list.map((item, i) => {
+                        return (
+                          <AccordionItem className="accordionLabel" title={item.label} expanded={item === 1}>
+                            <div>
+                                   <textarea value={item.value} onChange={this.handleChangeItemValue(item)}/>
+                            </div>
+                             <div className="remove-column">
+                                  <button onClick={this.deleteItem(item)}>
+                                   Remove
+                                  </button>
+                                </div>
+                          </AccordionItem>
+
+                        );
+                      })}
+                    </Accordion>
                 </li>
-              );
-            })}
+         
           </ul>
         </div>
       </div>
