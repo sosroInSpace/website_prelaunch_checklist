@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Accordion, AccordionItem } from 'react-sanfona';
+import Select from 'react-select';
 import "./App.css";
 import "./style.scss";
 
@@ -9,6 +10,10 @@ import "./style.scss";
 
 const LOCAL_STORAGE_LIST_NAME = 'mathew-and-lukes-app.list';
 
+const LOCAL_STORAGE_THEME = 'theme'
+
+const LOCAL_STORAGE_THEME_VALUE = 'theme-value'
+
 class App extends Component {
 
   constructor(props) {
@@ -17,10 +22,14 @@ class App extends Component {
     this.state = {
       newItemHeader: '',
       list: [],
-      onKeyPress: this.onKeyPress
+      onKeyPress: this.onKeyPress,
+      value: 'select'
 
     };
   }
+
+
+
 
   componentDidMount() {
 
@@ -38,6 +47,52 @@ class App extends Component {
     window.removeEventListener("beforeunload", this.saveStateToLocalStorage);
   }
 
+  onChange(e) {
+    const theme = document.getElementById('App');
+
+    this.setState({
+      value: e.target.value
+    })
+
+
+
+    if (e.target.value == "Light") {
+        
+        theme.classList.add('light-theme');
+        theme.classList.remove('dark-theme');
+
+        localStorage.setItem('theme', 'light-theme');
+        localStorage.setItem('theme-value', 'Light');
+
+    }
+    else if (e.target.value == "Dark"){
+
+        theme.classList.add('dark-theme');
+        theme.classList.remove('light-theme');
+
+        let darktheme = theme.classList.add('dark-theme');
+
+         localStorage.setItem('theme', 'dark-theme');
+         localStorage.setItem('theme-value', 'Dark');
+
+    }
+
+    else {
+
+
+        theme.classList.remove('light-theme');
+        theme.classList.remove('dark-theme');
+
+        localStorage.setItem('theme', 'theme');
+        localStorage.setItem('theme-value', 'theme');
+
+    }
+  }
+
+
+
+
+
   hydrateStateWithLocalStorage = () => {
 
     // Check if localstorage is available.
@@ -49,6 +104,21 @@ class App extends Component {
     // Get localstorage item.
 
     const listJSON = localStorage.getItem(LOCAL_STORAGE_LIST_NAME);
+
+    const themeSelect = localStorage.getItem(LOCAL_STORAGE_THEME);
+
+    const themeValue = localStorage.getItem(LOCAL_STORAGE_THEME_VALUE);
+
+    const theme = document.getElementById('App');
+
+    const themeView = document.getElementById('theme-selection');
+
+   this.setState({
+      value: themeValue
+    })
+
+    theme.classList.add(themeSelect);
+
 
     if (listJSON == null) {
       return;
@@ -208,19 +278,26 @@ class App extends Component {
 
   }
 
+
   render() {
 
     const { list, newItemHeader } = this.state;
+    const options = ["Theme", "Light", "Dark"]
 
     return (
-      <div className="App">
-
-
-   
+      <div className="App" id="App">
+      <div className="gradient-filter"></div>
+        <div className="select-wrapper">
+         <select id="theme-selection" value={this.state.value} onChange={this.onChange.bind(this)} className="form-control">
+          {options.map(option => {
+            return <option value={option} key={option} >{option}</option>
+          })}
+        </select>
+      </div>
         <div
           className="column-container"
           >
-          <h2>Notes</h2>
+          <h2>Notes<span>++</span></h2>
           <br />
           <input
             type="text"

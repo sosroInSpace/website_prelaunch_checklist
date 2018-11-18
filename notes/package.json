@@ -12,7 +12,9 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-sanfona": "^1.4.0",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "react-select": "^2.1.1",
+    "react-switch": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
