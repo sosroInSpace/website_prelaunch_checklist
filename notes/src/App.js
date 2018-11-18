@@ -285,7 +285,10 @@ class App extends Component {
     const options = ["Theme", "Light", "Dark"]
 
     return (
+
       <div className="App" id="App">
+            <link rel="preload" href="https://res.cloudinary.com/dm8clqmym/image/upload/v1542516366/note-background_byoguu.jpg" as="image" />
+
       <div className="gradient-filter"></div>
         <div className="select-wrapper">
          <select id="theme-selection" value={this.state.value} onChange={this.onChange.bind(this)} className="form-control">
