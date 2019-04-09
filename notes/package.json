@@ -8,11 +8,11 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "node-sass": "^4.10.0",
-    "parcel": "^1.10.3",
+    "parcel": "^1.12.3",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-sanfona": "^1.4.0",
-    "react-scripts": "2.1.1"
+    "react-scripts": "^2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
